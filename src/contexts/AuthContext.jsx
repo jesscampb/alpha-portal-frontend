@@ -4,8 +4,9 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-    const apiEndpoint = "https://localhost/api/auth"
-    const defaultValues = { accessToken: null, role: "admin", isAuthenticated: true, loading: false }
+    const apiEndpoint = "http://localhost:5246/api/projects"
+    // role är null, istället för "admin", för jag har ingen rollhantering
+    const defaultValues = { accessToken: null, role: null, isAuthenticated: true, loading: false }
     const [auth, setAuth] = useState(defaultValues)
 
     const fetchAuthData = async () => {
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
           const res = await fetch(apiEndpoint)
 
           if (res.ok) {
-            const data = await response.json();
+            const data = await res.json();
             setAuth({ accessToken: data.accessToken, role: data.role, isAuthenticated: true, loading: false });
           }  
 
