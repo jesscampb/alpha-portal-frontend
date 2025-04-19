@@ -7,7 +7,7 @@ const apiKey = import.meta.env.VITE_DEFAULT_API_KEY
 const adminApiKey = import.meta.env.VITE_ADMIN_API_KEY
 
 export const AuthProvider = ({ children }) => {
-    const apiEndpoint = "https://localhost:7141/api/projects"
+    const apiEndpoint = `${import.meta.env.VITE_API_URL}/projects`
     const defaultValues = { accessToken: null, role: "admin", isAuthenticated: true, loading: false }
     const [auth, setAuth] = useState(defaultValues)
 
