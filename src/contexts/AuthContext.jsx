@@ -3,11 +3,12 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
+const apiUrl = import.meta.env.VITE_API_URL
 const apiKey = import.meta.env.VITE_DEFAULT_API_KEY
 const adminApiKey = import.meta.env.VITE_ADMIN_API_KEY
 
 export const AuthProvider = ({ children }) => {
-    const apiEndpoint = `${import.meta.env.VITE_API_URL}/projects`
+    const apiEndpoint = `${apiUrl}/projects`
     const defaultValues = { accessToken: null, role: "admin", isAuthenticated: true, loading: false }
     const [auth, setAuth] = useState(defaultValues)
 
