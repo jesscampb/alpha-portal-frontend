@@ -1,4 +1,4 @@
-import React, {createContext} from 'react'
+import React, {createContext, useContext, useState, useEffect} from 'react'
 import { useAuth } from './AuthContext'
 
 const ProjectContext = createContext()
@@ -14,7 +14,7 @@ export const ProjectProvider = ({children}) => {
   const [projectStatuses, setProjectStatuses] = useState([])
   const [loading, setLoading] = useState(false)
 
-  projectData = {
+  const projectData = {
     projects,
     getProjects,
     users,
@@ -22,12 +22,15 @@ export const ProjectProvider = ({children}) => {
     clients,
     getClients,
     projectStatuses,
-    getProjectStatuses
+    getProjectStatuses,
+    createProject,
+    updateProject,
+    deleteProject,
   }
 
   const getProjects = async () => {
     try {
-      const res = await fetch(`${apiuri}/projects`, {
+      const res = await fetch(`${apiUri}/projects`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +49,7 @@ export const ProjectProvider = ({children}) => {
 
   const getClients = async () => {
     try {
-      const res = await fetch(`${apiuri}/clients`, {
+      const res = await fetch(`${apiUri}/clients`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +68,7 @@ export const ProjectProvider = ({children}) => {
 
   const getUsers = async () => {
     try {
-      const res = await fetch(`${apiuri}/users`, {
+      const res = await fetch(`${apiUri}/users`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +87,7 @@ export const ProjectProvider = ({children}) => {
 
   const getProjectStatuses = async () => {
     try {
-      const res = await fetch(`${apiuri}/projectStatuses`, {
+      const res = await fetch(`${apiUri}/projectStatuses`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -101,6 +104,57 @@ export const ProjectProvider = ({children}) => {
     }
   }
 
+  const createProject = async (formData) => {
+    try {
+      const res = await fetch(`${apiUri}/projects`, {
+        method: 'POST',
+        headers: {
+          'X-API-Key': apiKey
+        },
+        body: formData
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        setProjects([...projects, data])
+      }
+    } catch (error) {
+      console.log('Error creating project:', error)
+    }
+  }
+
+  const updateProject = async (id, formData) => {
+    try {
+      const res = await fetch(`${apiUri}/projects/${id}`, {
+        method: 'PUT',
+        headers: {
+          'X-API-Key': apiKey
+        },
+        body: formData
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        setProjects(projects.map(project => project.id === id ? data : project))
+      }
+    } catch (error) {
+      console.log('Error updating project:', error)
+    }
+  }
+
+  const deleteProject = async (id) => {
+    try {
+      const res = await fetch(`${apiUri}/projects/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-API-Key': apiKey
+        }
+      })
+    }
+    catch (error) {
+      console.log('Error deleting project:', error)
+    }
+  }
 
   return (
     <ProjectContext.Provider value={projectData}>
