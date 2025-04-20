@@ -173,5 +173,3 @@ export const ProjectProvider = ({children}) => {
     </ProjectContext.Provider>
   )
 }
-
-export default ProjectContext
