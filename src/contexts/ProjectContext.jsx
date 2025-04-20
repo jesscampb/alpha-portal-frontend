@@ -29,6 +29,7 @@ export const ProjectProvider = ({children}) => {
   }
 
   const getProjects = async () => {
+    setLoading(true)
     try {
       const res = await fetch(`${apiUri}/projects`, {
         method: 'GET',
@@ -45,9 +46,13 @@ export const ProjectProvider = ({children}) => {
     } catch (error) {
       console.log('Error fetching projects:', error)
     }
+    finally {
+      setLoading(false)
+    }
   }
 
   const getClients = async () => {
+    setLoading(true)
     try {
       const res = await fetch(`${apiUri}/clients`, {
         method: 'GET',
@@ -64,9 +69,13 @@ export const ProjectProvider = ({children}) => {
     } catch (error) {
       console.log('Error fetching clients:', error)
     }
+    finally {
+      setLoading(false)
+    }
   }
 
   const getUsers = async () => {
+    setLoading(true)
     try {
       const res = await fetch(`${apiUri}/users`, {
         method: 'GET',
@@ -83,9 +92,13 @@ export const ProjectProvider = ({children}) => {
     } catch (error) {
       console.log('Error fetching users:', error)
     }
+    finally {
+      setLoading(false)
+    }
   }
 
   const getProjectStatuses = async () => {
+    setLoading(true)
     try {
       const res = await fetch(`${apiUri}/projectStatuses`, {
         method: 'GET',
@@ -101,6 +114,9 @@ export const ProjectProvider = ({children}) => {
       }
     } catch (error) {
       console.log('Error fetching project statuses:', error)
+    }
+    finally {
+      setLoading(false)
     }
   }
 
@@ -150,6 +166,11 @@ export const ProjectProvider = ({children}) => {
           'X-API-Key': apiKey
         }
       })
+
+      if (res.ok) {
+        setProjects(projects.filter(project => project.id !== id))
+        console.log('Project deleted successfully')
+      }
     }
     catch (error) {
       console.log('Error deleting project:', error)
