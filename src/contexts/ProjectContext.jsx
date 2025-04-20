@@ -9,6 +9,9 @@ export const ProjectProvider = ({children}) => {
 
   const apiUri = `${import.meta.env.VITE_API_URI}/projects`
   const [projects, setProjects] = useState([])
+  const [users, setUsers] = useState([])
+  const [clients, setClients] = useState([])
+  const [projectStatus, setProjectStatus] = useState([])
   const [loading, setLoading] = useState(false)
 
   projectData = {
@@ -17,7 +20,6 @@ export const ProjectProvider = ({children}) => {
   }
 
   const getProjects = async () => {
-    setLoading(true)
     try {
       const res = await fetch(apiuri, {
         method: 'GET',
@@ -34,7 +36,6 @@ export const ProjectProvider = ({children}) => {
     } catch (error) {
       console.log('Error fetching projects:', error)
     }
-    setLoading(false)
   }
 
   return (
