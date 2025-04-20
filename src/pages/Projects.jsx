@@ -1,6 +1,7 @@
 import React from 'react'
 import ModalButton from '../partials/components/ModalButton'
 import { useProject } from '../contexts/ProjectContext'
+import Modal from '../partials/sections/Modal'
 
 const Projects = () => {
   const {
