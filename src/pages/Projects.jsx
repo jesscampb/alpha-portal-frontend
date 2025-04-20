@@ -1,7 +1,24 @@
 import React from 'react'
 import ModalButton from '../partials/components/ModalButton'
+import { useProject } from '../contexts/ProjectContext'
 
 const Projects = () => {
+  const {
+    projects,
+    getProjects,
+    users,
+    getUsers,
+    clients,
+    getClients,
+    projectStatuses,
+    getProjectStatuses,
+    createProject,
+    updateProject,
+    deleteProject,
+  } = useProject()
+
+
+  
   return (
     <div id="projects">
       <div className="page-header">
