@@ -26,6 +26,8 @@ export const ProjectProvider = ({children}) => {
     createProject,
     updateProject,
     deleteProject,
+    loading,
+    setLoading
   }
 
   const getProjects = async () => {
