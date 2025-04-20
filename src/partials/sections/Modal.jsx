@@ -3,7 +3,6 @@
 import React from "react";
 
 const Modal = ({ isOpen, title, children, onClose }) => {
-  if (!isOpen) return null;
 
   return (
     <div className="modal" style={{ display: isOpen ? "flex" : "none" }}>
