@@ -131,8 +131,8 @@ export const ProjectProvider = ({children}) => {
       })
 
       if (res.ok) {
-        const data = await res.json()
-        setProjects([...projects, data])
+        getProjects()
+        console.log('Project created successfully')
       }
     } catch (error) {
       console.log('Error creating project:', error)
@@ -150,8 +150,8 @@ export const ProjectProvider = ({children}) => {
       })
 
       if (res.ok) {
-        const data = await res.json()
-        setProjects(projects.map(project => project.id === id ? data : project))
+        await getProjects()
+        console.log('Project updated successfully')
       }
     } catch (error) {
       console.log('Error updating project:', error)
@@ -168,7 +168,7 @@ export const ProjectProvider = ({children}) => {
       })
 
       if (res.ok) {
-        setProjects(projects.filter(project => project.id !== id))
+        await getProjects()
         console.log('Project deleted successfully')
       }
     }
