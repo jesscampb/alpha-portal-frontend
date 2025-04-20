@@ -156,6 +156,13 @@ export const ProjectProvider = ({children}) => {
     }
   }
 
+  useEffect(() => {
+    getProjects()
+    getUsers()
+    getClients()
+    getProjectStatuses()
+  }, [])
+
   return (
     <ProjectContext.Provider value={projectData}>
         {children}
