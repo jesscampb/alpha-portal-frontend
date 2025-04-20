@@ -1,0 +1,23 @@
+// ChatGPT generated code
+
+import React from "react";
+
+const Modal = ({ isOpen, title, children, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal" style={{ display: isOpen ? "flex" : "none" }}>
+      <div className="modal-content">
+        <header className="modal-header">
+          <h2>{title}</h2>
+          <button className="btn-close" onClick={onClose} aria-label="Close modal"></button>
+        </header>
+        <main className="modal-body">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default Modal;
