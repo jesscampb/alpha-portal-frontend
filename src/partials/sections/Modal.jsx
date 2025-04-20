@@ -5,7 +5,7 @@ import React from "react";
 const Modal = ({ isOpen, title, children, onClose }) => {
 
   return (
-    <div className={"modal" `${isOpen ? "flex" : "none"}` }>
+    <div className={`modal ${isOpen ? "flex" : "none"}` }>
       <div className="modal-content">
         <header className="modal-header">
           <h2>{title}</h2>
