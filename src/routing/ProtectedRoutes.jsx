@@ -5,15 +5,15 @@ import LoadingSpinner from '../partials/components/LoadingSpinner';
 
 
 export const ProtectedRoute = ({ children }) => {
-  const { auth } = useAuth()
+  const { loading, isAuthenticated } = useAuth()
 
-  if (auth.loading) return <LoadingSpinner />
-  return auth.isAuthenticated ? children : <Navigate to="/auth/signin" replace />
+  if (loading) return <LoadingSpinner />
+  return isAuthenticated ? children : <Navigate to="/auth/signin" replace />
 };
 
 export const AdminRoute = ({ children }) => {
-  const { auth } = useAuth()
+  const { loading, isAuthenticated, role } = useAuth()
   
-  if (auth.loading) return <LoadingSpinner />
-  return auth.isAuthenticated && auth.role === 'admin' ? children : <Navigate to="/admin/projects" replace />
+  if (loading) return <LoadingSpinner />
+  return isAuthenticated && role === 'admin' ? children : <Navigate to="/admin/projects" replace />
 };
