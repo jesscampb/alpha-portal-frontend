@@ -8,13 +8,19 @@ const adminApiKey = import.meta.env.VITE_ADMIN_API_KEY
 
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
-  const authKeys = {
-    apiKey: apiKey,
-    adminApiKey: adminApiKey
+  const [isAuthenticated, setIsAuthenticated] = useState(true)
+  const [role, setRole] = useState('admin')
+  const auth = {
+    apiKey,
+    adminApiKey,
+    loading,
+    setLoading,
+    isAuthenticated,
+    role
   }
 
   return (
-    <AuthContext.Provider value={{authKeys, loading, setLoading}}>
+    <AuthContext.Provider value={auth}>
         {children}
     </AuthContext.Provider>
   )
