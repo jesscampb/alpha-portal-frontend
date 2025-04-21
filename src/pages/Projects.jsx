@@ -18,111 +18,183 @@ const Projects = () => {
     deleteProject,
   } = useProject()
 
+  // AI generated code start
+
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
-  const [selectedProject, setSelectedProject] = useState(null)  // Det projekt som redigeras
+  const [selectedProject, setSelectedProject] = useState(null)
+  
+  const [formValues, setFormValues] = useState({
+    imageFile: null,
+    projectName: "",
+    clientId: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    userId: "",
+    budget: "",
+    projectStatusId: ""
+  })
 
   const closeModal = () => {
     setIsModalOpen(false)
-    setSelectedProject(null)  // Reset projektdata när modalen stängs
+    setIsEditing(false)
+    setSelectedProject(null)
+    setFormValues({
+      imageFile: null,
+      projectName: "",
+      clientId: "",
+      description: "",
+      startDate: "",
+      endDate: "",
+      userId: "",
+      budget: "",
+      projectStatusId: ""
+    })
   }
-
+  
   const openAddModal = () => {
     setIsEditing(false)
+    setSelectedProject(null)
     setIsModalOpen(true)
   }
-
+  
   const openEditModal = (project) => {
     setIsEditing(true)
     setSelectedProject(project)
+    setFormValues({
+      imageFile: null,
+      projectName: project.projectName || "",
+      clientId: project.client?.id || "",
+      description: project.description || "",
+      startDate: project.startDate?.split("T")[0] || "",
+      endDate: project.endDate?.split("T")[0] || "",
+      userId: project.user?.id || "",
+      budget: project.budget || "",
+      projectStatusId: project.status?.id || ""
+    })
     setIsModalOpen(true)
   }
 
+  const handleChange = (e) => {
+    const { name, value, type, files } = e.target
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: type === "file" ? files[0] : value
+    }))
+  }
+
   const handleSubmit = async (e) => {
-    e.preventDefault() // Så inte sidan laddas om
-    const data = new FormData(e.target)
-    if (isEditing) {
-      await updateProject(selectedProject.id, data)
-    } else {
-      await createProject(data)
+    e.preventDefault()
+  
+    const formData = new FormData()
+    for (const [key, value] of Object.entries(formValues)) {
+      if (value !== null && value !== "") {
+        formData.append(key, value)
+      }
     }
+  
+    if (isEditing) {
+      formData.append("id", selectedProject.id)
+      formData.append("existingImageFileName", selectedProject.imageFileName || "")
+      await updateProject(selectedProject.id, formData)
+    } else {
+      await createProject(formData)
+    }
+  
     closeModal()
   }
+  
+  
+  // AI generated code end
 
   return (
     <div id="projects">
       <div className="page-header">
         <h1 className="h2">Projects</h1>
-        {/* Knappen för att öppna modalen för att lägga till projekt */}
         <ModalButton type="add" onClick={openAddModal} text="Add Project" />
       </div>
 
-      {/* Lista av projekt */}
       <div>
         {projects.map((project) => (
           <div key={project.id} className="project-card">
             <h3>{project.projectName}</h3>
-            {/* Dropdown för att öppna edit modal */}
             <button onClick={() => openEditModal(project)}>Edit</button>
-            {/* Du kan även lägga till en Delete-knapp här om du vill */}
           </div>
         ))}
       </div>
 
-      {/* Modal för Add eller Edit Project */}
       <Modal isOpen={isModalOpen} title={isEditing ? "Edit Project" : "Add Project"} onClose={closeModal}>
         <form onSubmit={handleSubmit}>
+
           <div className="form-group">
-            <label>Title</label>
-            <input name="title" defaultValue={isEditing ? currentProject.title : ''} required />
+            <label htmlFor='imageFile'>Image</label>
+            <input type="file" name="imageFile" onChange={handleChange} />
           </div>
 
           <div className="form-group">
-            <label>Description</label>
-            <textarea name="description" defaultValue={isEditing ? currentProject.description : ''} />
+            <label htmlFor='projectName'>Project Name</label>
+            <input type="text" name="projectName" value={formValues.projectName} onChange={handleChange} placeholder="Enter Project Name" required />
           </div>
 
           <div className="form-group">
-            <label>Start Date</label>
-            <input type="date" name="startDate" defaultValue={isEditing ? currentProject.startDate : ''} />
-          </div>
-
-          <div className="form-group">
-            <label>End Date</label>
-            <input type="date" name="endDate" defaultValue={isEditing ? currentProject.endDate : ''} />
-          </div>
-
-          <div className="form-group">
-            <label>Client</label>
-            <select name="clientId" defaultValue={isEditing ? currentProject.clientId : ''}>
-              <option value="">Välj en klient</option>
+            <label htmlFor='clientId'>Client Name</label>
+            <select name="clientId" value={formValues.clientId} onChange={handleChange} required>
+              <option value="">Select Client Name</option>
               {clients.map(client => (
-                <option key={client.id} value={client.id}>{client.name}</option>
+                <option key={client.id} value={client.id}>
+                  {client.clientName}
+                </option>
               ))}
             </select>
           </div>
 
           <div className="form-group">
-            <label>Status</label>
-            <select name="statusId" defaultValue={isEditing ? currentProject.statusId : ''}>
-              <option value="">Välj en status</option>
-              {projectStatuses.map(status => (
-                <option key={status.id} value={status.id}>{status.name}</option>
-              ))}
-            </select>
+            <label htmlFor='description'>Description</label>
+            <textarea name="description" value={formValues.description} onChange={handleChange} placeholder="Type something" />
           </div>
 
           <div className="form-group">
-            <label>Owner</label>
-            <select name="ownerId" defaultValue={isEditing ? currentProject.ownerId : ''}>
-              <option value="">Välj en användare</option>
+            <label htmlFor='startDate'>Start Date</label>
+            <input type="date" name="startDate" value={formValues.startDate} onChange={handleChange} required />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor='endDate'>End Date</label>
+            <input type="date" name="endDate" value={formValues.endDate} onChange={handleChange} required />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor='userId'>Project Owner</label>
+            <select name="userId" defaultValue={isEditing ? selectedProject.userId : ''}>
+              <option value="">Select Project Owner</option>
               {users.map(user => (
-                <option key={user.id} value={user.id}>{user.firstName} {user.lastName}</option>
+                <option key={user.id} value={user.id}>
+                  {user.firstName} {user.lastName}
+                </option>
               ))}
             </select>
           </div>
 
-          <button type="submit" className="btn">{isEditing ? 'Update Project' : 'Create Project'}</button>
+          <div className="form-group">
+            <label htmlFor='budget'>Budget</label>
+            <input type="number" name="budget" value={formValues.budget} onChange={handleChange} placeholder="0" step="0.01" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor='projectStatusId'>Project Status</label>
+            <select name="projectStatusId" value={formValues.projectStatusId} onChange={handleChange} required>
+              <option value="">Status</option>
+              {projectStatuses.map(status => (
+                <option key={status.id} value={status.id}>
+                  {status.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button type="submit" className="btn">{isEditing ? 'Save' : 'Create'}</button>
+        
         </form>
       </Modal>
     </div>
@@ -130,3 +202,36 @@ const Projects = () => {
 }
 
 export default Projects
+
+
+{/* <Modal isOpen={isModalOpen} title={isEditing ? "Redigera projekt" : "Nytt projekt"} onClose={closeModal}>
+  <form onSubmit={handleSubmit} className="form-grid">
+    <input type="text" name="projectName" value={formValues.projectName} onChange={handleChange} placeholder="Projektnamn" required />
+    
+    <select name="clientId" value={formValues.clientId} onChange={handleChange} required>
+      <option value="">Välj kund</option>
+      {clients.map(client => <option key={client.id} value={client.id}>{client.name}</option>)}
+    </select>
+
+    <textarea name="description" value={formValues.description} onChange={handleChange} placeholder="Beskrivning" />
+
+    <input type="date" name="startDate" value={formValues.startDate} onChange={handleChange} required />
+    <input type="date" name="endDate" value={formValues.endDate} onChange={handleChange} required />
+
+    <select name="userId" value={formValues.userId} onChange={handleChange} required>
+      <option value="">Tilldelad användare</option>
+      {users.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}
+    </select>
+
+    <input type="number" name="budget" value={formValues.budget} onChange={handleChange} placeholder="Budget" step="0.01" />
+
+    <select name="projectStatusId" value={formValues.projectStatusId} onChange={handleChange} required>
+      <option value="">Status</option>
+      {projectStatuses.map(status => <option key={status.id} value={status.id}>{status.name}</option>)}
+    </select>
+
+    <input type="file" name="imageFile" onChange={handleChange} />
+
+    <button type="submit">{isEditing ? "Spara ändringar" : "Skapa projekt"}</button>
+  </form>
+</Modal> */}
