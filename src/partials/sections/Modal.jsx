@@ -1,4 +1,4 @@
-// ChatGPT generated code
+// AI-genererad kod, med enstaka tillägg
 
 import React from "react";
 
