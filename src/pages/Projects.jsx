@@ -124,6 +124,7 @@ const Projects = () => {
         ))}
       </div>
 
+        {/* Formuläret är AI-genererat och justerat */}
       <Modal isOpen={isModalOpen} title={isEditing ? "Edit Project" : "Add Project"} onClose={closeModal}>
         <form onSubmit={handleSubmit}>
 
@@ -166,7 +167,7 @@ const Projects = () => {
 
           <div className="form-group">
             <label htmlFor='userId'>Project Owner</label>
-            <select name="userId" defaultValue={isEditing ? selectedProject.userId : ''}>
+            <select name="userId" value={formValues.userId} onChange={handleChange} required>
               <option value="">Select Project Owner</option>
               {users.map(user => (
                 <option key={user.id} value={user.id}>
@@ -202,36 +203,3 @@ const Projects = () => {
 }
 
 export default Projects
-
-
-{/* <Modal isOpen={isModalOpen} title={isEditing ? "Redigera projekt" : "Nytt projekt"} onClose={closeModal}>
-  <form onSubmit={handleSubmit} className="form-grid">
-    <input type="text" name="projectName" value={formValues.projectName} onChange={handleChange} placeholder="Projektnamn" required />
-    
-    <select name="clientId" value={formValues.clientId} onChange={handleChange} required>
-      <option value="">Välj kund</option>
-      {clients.map(client => <option key={client.id} value={client.id}>{client.name}</option>)}
-    </select>
-
-    <textarea name="description" value={formValues.description} onChange={handleChange} placeholder="Beskrivning" />
-
-    <input type="date" name="startDate" value={formValues.startDate} onChange={handleChange} required />
-    <input type="date" name="endDate" value={formValues.endDate} onChange={handleChange} required />
-
-    <select name="userId" value={formValues.userId} onChange={handleChange} required>
-      <option value="">Tilldelad användare</option>
-      {users.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}
-    </select>
-
-    <input type="number" name="budget" value={formValues.budget} onChange={handleChange} placeholder="Budget" step="0.01" />
-
-    <select name="projectStatusId" value={formValues.projectStatusId} onChange={handleChange} required>
-      <option value="">Status</option>
-      {projectStatuses.map(status => <option key={status.id} value={status.id}>{status.name}</option>)}
-    </select>
-
-    <input type="file" name="imageFile" onChange={handleChange} />
-
-    <button type="submit">{isEditing ? "Spara ändringar" : "Skapa projekt"}</button>
-  </form>
-</Modal> */}
