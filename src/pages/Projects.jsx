@@ -141,7 +141,7 @@ const Projects = () => {
           <div className="form-group">
             <label htmlFor='clientId'>Client Name</label>
             <select id='clientId' name="clientId" value={formValues.clientId} onChange={handleChange} required>
-              <option value="">Select Client Name</option>
+              <option value="" disabled hidden>Select Client Name</option>
               {clients.map(client => (
                 <option key={client.id} value={client.id}>
                   {client.clientName}
@@ -168,7 +168,7 @@ const Projects = () => {
           <div className="form-group">
             <label htmlFor='userId'>Project Owner</label>
             <select id='userId' name="userId" value={formValues.userId} onChange={handleChange} required>
-              <option value="">Select Project Owner</option>
+              <option value="" disabled hidden>Select Project Owner</option>
               {users.map(user => (
                 <option key={user.id} value={user.id}>
                   {user.firstName} {user.lastName}
@@ -182,17 +182,18 @@ const Projects = () => {
             <input type="number" id='budget' name="budget" value={formValues.budget} onChange={handleChange} placeholder="0" step="0.01" />
           </div>
 
+          {isEditing &&
           <div className="form-group">
             <label htmlFor='projectStatusId'>Project Status</label>
             <select id='projectStatusId' name="projectStatusId" value={formValues.projectStatusId} onChange={handleChange} required>
-              <option value="">Status</option>
+              <option value="" disabled hidden>Status</option>
               {projectStatuses.map(status => (
                 <option key={status.id} value={status.id}>
-                  {status.name}
+                  {status.statusName}
                 </option>
               ))}
             </select>
-          </div>
+          </div>}
 
           <button type="submit" className="btn">{isEditing ? 'Save' : 'Create'}</button>
         
