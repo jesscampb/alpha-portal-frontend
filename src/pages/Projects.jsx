@@ -104,7 +104,13 @@ const Projects = () => {
   
     closeModal()
   }
-  
+
+  const handleDelete = (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this project?")
+    if (isConfirmed) {
+      deleteProject(id)
+    }
+  }
   
   // AI-genererad kod slut
 
@@ -120,6 +126,7 @@ const Projects = () => {
           <div key={project.id} className="project-card">
             <h3>{project.projectName}</h3>
             <button onClick={() => openEditModal(project)}>Edit</button>
+            <button onClick={() => handleDelete(project.id)}>Delete Project</button>
           </div>
         ))}
       </div>
