@@ -18,7 +18,7 @@ const Projects = () => {
     deleteProject,
   } = useProject()
 
-  // AI generated code start
+  // AI-genererad kod start
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -106,7 +106,7 @@ const Projects = () => {
   }
   
   
-  // AI generated code end
+  // AI-genererad kod slut
 
   return (
     <div id="projects">
@@ -124,23 +124,23 @@ const Projects = () => {
         ))}
       </div>
 
-        {/* Formuläret är AI-genererat och justerat */}
+        {/* Formulärets grund är AI-genererat, men justerat */}
       <Modal isOpen={isModalOpen} title={isEditing ? "Edit Project" : "Add Project"} onClose={closeModal}>
         <form onSubmit={handleSubmit}>
 
           <div className="form-group">
             <label htmlFor='imageFile'>Image</label>
-            <input type="file" name="imageFile" onChange={handleChange} />
+            <input type="file" id='imageFile' name="imageFile" onChange={handleChange} />
           </div>
 
           <div className="form-group">
             <label htmlFor='projectName'>Project Name</label>
-            <input type="text" name="projectName" value={formValues.projectName} onChange={handleChange} placeholder="Enter Project Name" required />
+            <input type="text" id='projectName' name="projectName" value={formValues.projectName} onChange={handleChange} placeholder="Enter Project Name" required />
           </div>
 
           <div className="form-group">
             <label htmlFor='clientId'>Client Name</label>
-            <select name="clientId" value={formValues.clientId} onChange={handleChange} required>
+            <select id='clientId' name="clientId" value={formValues.clientId} onChange={handleChange} required>
               <option value="">Select Client Name</option>
               {clients.map(client => (
                 <option key={client.id} value={client.id}>
@@ -152,22 +152,22 @@ const Projects = () => {
 
           <div className="form-group">
             <label htmlFor='description'>Description</label>
-            <textarea name="description" value={formValues.description} onChange={handleChange} placeholder="Type something" />
+            <textarea id='description' name="description" value={formValues.description} onChange={handleChange} placeholder="Type something" />
           </div>
 
           <div className="form-group">
             <label htmlFor='startDate'>Start Date</label>
-            <input type="date" name="startDate" value={formValues.startDate} onChange={handleChange} required />
+            <input type="date" id='startDate' name="startDate" value={formValues.startDate} onChange={handleChange} required />
           </div>
 
           <div className="form-group">
             <label htmlFor='endDate'>End Date</label>
-            <input type="date" name="endDate" value={formValues.endDate} onChange={handleChange} required />
+            <input type="date" id='endDate' name="endDate" value={formValues.endDate} onChange={handleChange} required />
           </div>
 
           <div className="form-group">
             <label htmlFor='userId'>Project Owner</label>
-            <select name="userId" value={formValues.userId} onChange={handleChange} required>
+            <select id='userId' name="userId" value={formValues.userId} onChange={handleChange} required>
               <option value="">Select Project Owner</option>
               {users.map(user => (
                 <option key={user.id} value={user.id}>
@@ -179,12 +179,12 @@ const Projects = () => {
 
           <div className="form-group">
             <label htmlFor='budget'>Budget</label>
-            <input type="number" name="budget" value={formValues.budget} onChange={handleChange} placeholder="0" step="0.01" />
+            <input type="number" id='budget' name="budget" value={formValues.budget} onChange={handleChange} placeholder="0" step="0.01" />
           </div>
 
           <div className="form-group">
             <label htmlFor='projectStatusId'>Project Status</label>
-            <select name="projectStatusId" value={formValues.projectStatusId} onChange={handleChange} required>
+            <select id='projectStatusId' name="projectStatusId" value={formValues.projectStatusId} onChange={handleChange} required>
               <option value="">Status</option>
               {projectStatuses.map(status => (
                 <option key={status.id} value={status.id}>
