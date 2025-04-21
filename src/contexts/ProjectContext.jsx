@@ -5,7 +5,7 @@ const ProjectContext = createContext()
 export const useProject = () => useContext(ProjectContext)
 
 export const ProjectProvider = ({children}) => {
-  const {apiKey} = useAuth()
+  const {apiKey, adminApiKey} = useAuth()
 
   const apiUri = import.meta.env.VITE_API_URI
   const [projects, setProjects] = useState([])
@@ -13,19 +13,7 @@ export const ProjectProvider = ({children}) => {
   const [clients, setClients] = useState([])
   const [projectStatuses, setProjectStatuses] = useState([])
 
-  const projectData = {
-    projects,
-    getProjects,
-    users,
-    getUsers,
-    clients,
-    getClients,
-    projectStatuses,
-    getProjectStatuses,
-    createProject,
-    updateProject,
-    deleteProject,
-  }
+
 
   const getProjects = async () => {
     try {
@@ -33,7 +21,8 @@ export const ProjectProvider = ({children}) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'X-API-Key': apiKey
+          'X-API-Key': apiKey,
+          'X-ADM-API-KEY': adminApiKey
         }
       })
 
@@ -52,7 +41,8 @@ export const ProjectProvider = ({children}) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'X-API-Key': apiKey
+          'X-API-Key': apiKey,
+          'X-ADM-API-KEY': adminApiKey
         }
       })
 
@@ -71,7 +61,8 @@ export const ProjectProvider = ({children}) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'X-API-Key': apiKey
+          'X-API-Key': apiKey,
+          'X-ADM-API-KEY': adminApiKey
         }
       })
 
@@ -90,7 +81,8 @@ export const ProjectProvider = ({children}) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'X-API-Key': apiKey
+          'X-API-Key': apiKey,
+          'X-ADM-API-KEY': adminApiKey
         }
       })
 
@@ -108,7 +100,8 @@ export const ProjectProvider = ({children}) => {
       const res = await fetch(`${apiUri}/projects`, {
         method: 'POST',
         headers: {
-          'X-API-Key': apiKey
+          'X-API-Key': apiKey,
+          'X-ADM-API-KEY': adminApiKey
         },
         body: formData
       })
@@ -127,7 +120,8 @@ export const ProjectProvider = ({children}) => {
       const res = await fetch(`${apiUri}/projects/${id}`, {
         method: 'PUT',
         headers: {
-          'X-API-Key': apiKey
+          'X-API-Key': apiKey,
+          'X-ADM-API-KEY': adminApiKey
         },
         body: formData
       })
@@ -146,7 +140,8 @@ export const ProjectProvider = ({children}) => {
       const res = await fetch(`${apiUri}/projects/${id}`, {
         method: 'DELETE',
         headers: {
-          'X-API-Key': apiKey
+          'X-API-Key': apiKey,
+          'X-ADM-API-KEY': adminApiKey
         }
       })
 
@@ -166,6 +161,20 @@ export const ProjectProvider = ({children}) => {
     getClients()
     getProjectStatuses()
   }, [])
+
+  const projectData = {
+    projects,
+    getProjects,
+    users,
+    getUsers,
+    clients,
+    getClients,
+    projectStatuses,
+    getProjectStatuses,
+    createProject,
+    updateProject,
+    deleteProject,
+  }
 
   return (
     <ProjectContext.Provider value={projectData}>
